@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEX GEN Chatbot | Naman AI</title>
+  
+  <!-- Meta Description for SEO -->
+  <meta name="description" content="NEX GEN Chatbot is AI assistant for planning events, improving skills, finding the latest news, and writing code. Get answers quickly and accurately!">
+
+  <!-- Open Graph Meta Tags for Social Media Previews -->
+  <meta property="og:title" content="NEX GEN Chatbot | Your AI Assistant By Naman ❤️">
+  <meta property="og:description" content="NEX GEN Chatbot is designed to help you with everything from event planning to finding the latest web development news, offering personalized assistance for various tasks.">
+  <meta property="og:image" content="https://i.imghippo.com/files/JM6629vI.png">
+  <meta property="og:url" content="https://namnijamni96.github.io/NEX-GEN-Al-by-Naman/">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="NEX GEN Chatbot | Your AI Assistant">
+  <meta name="twitter:description" content="Get quick help with planning, public speaking, web news, and coding tasks using NEX GEN Chatbot.">
+  <meta name="twitter:image" content="https://i.imghippo.com/files/JM6629vI.png">
+
+  <!-- Linking Google Fonts For Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
+
+<!-- Include AOS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+
+
+<!-- Include Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+  <style>
+
+/* Import Google Font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+
+:root {
+  /* Dark mode colors */
+  --text-color: #E3E3E3;
+  --subheading-color: #828282;
+  --placeholder-color: #A6A6A6;
+  --primary-color: #242424;
+  --secondary-color: #383838;
+  --secondary-hover-color: #444;
+}
+
+.light_mode {
+  /* Light mode colors */
+  --text-color: #222;
+  --subheading-color: #A0A0A0;
+  --placeholder-color: #6C6C6C;
+  --primary-color: #FFF;
+  --secondary-color: #E9EEF6;
+  --secondary-hover-color: #DBE1EA;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: var(--primary-color);
+}
+
+.header, .chat-list .message, .typing-form {
+  margin: 0 auto;
+  max-width: 980px;
+}
+
+.header {
+  margin-top: 6vh;
+  padding: 1rem;
+  overflow-x: hidden;
+}
+
+body.hide-header .header {
+  margin: 0;
+  display: none;
+}
+
+.header :where(.title, .subtitle) {
+  color: var(--text-color);
+  font-weight: 500;
+  line-height: 4rem;
+}
+
+.header .title {
+  width: fit-content;
+  font-size: 3rem;
+  background-clip: text;
+  background: linear-gradient(to right, #4285f4, #d96570);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header .subtitle {
+  font-size: 2.6rem;
+  color: var(--subheading-color);
+}
+
+.suggestion-list {
+  width: 100%;
+  list-style: none;
+  display: flex;
+  gap: 1.25rem;
+  margin-top: 9.5vh;
+  overflow: hidden;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.suggestion-list .suggestion {
+  cursor: pointer;
+  padding: 1.25rem;
+  width: 222px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  border-radius: 0.75rem;
+  justify-content: space-between;
+  background: var(--secondary-color);
+  transition: 0.2s ease;
+}
+
+.suggestion-list .suggestion:hover {
+  background: var(--secondary-hover-color);
+}
+
+.suggestion-list .suggestion :where(.text, .icon) {
+  font-weight: 400;
+  color: var(--text-color);
+}
+
+.suggestion-list .suggestion .icon {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  font-size: 1.3rem;
+  margin-top: 2.5rem;
+  align-self: flex-end;
+  align-items: center;
+  border-radius: 50%;
+  justify-content: center;
+  color: var(--text-color);
+  background: var(--primary-color);
+}
+
+.chat-list {
+  padding: 2rem 1rem 12rem;
+  max-height: 100vh;
+  overflow-y: auto;
+  scrollbar-color: #999 transparent;
+}
+
+.chat-list .message.incoming {
+  margin-top: 1.5rem;
+}
+
+.chat-list .message .message-content {
+  display: flex;
+  gap: 1.5rem;
+  width: 100%;
+  align-items: center;
+}
+
+.chat-list .message .text {
+  color: var(--text-color);
+  white-space: pre-wrap;
+}
+
+.chat-list .message.error .text {
+  color: #e55865;
+}
+
+.chat-list .message.loading .text {
+  display: none;
+}
+
+.chat-list .message .avatar {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+  align-self: flex-start;
+}
+
+.chat-list .message.loading .avatar {
+  animation: rotate 3s linear infinite;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.chat-list .message .icon {
+  color: var(--text-color);
+  cursor: pointer;
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  font-size: 1.25rem;
+  margin-left: 3.5rem;
+  visibility: hidden;
+}
+
+.chat-list .message .icon.hide {
+  visibility: hidden;
+}
+
+.chat-list .message:not(.loading, .error):hover .icon:not(.hide){
+  visibility: visible;
+}
+
+.chat-list .message .icon:hover {
+  background: var(--secondary-hover-color);
+}
+
+.chat-list .message .loading-indicator {
+  display: none;
+  gap: 0.8rem;
+  width: 100%;
+  flex-direction: column;
+}
+
+.chat-list .message.loading .loading-indicator {
+  display: flex;
+}
+
+.chat-list .message .loading-indicator .loading-bar {
+  height: 11px;
+  width: 100%;
+  border-radius: 0.135rem;
+  background-position: -800px 0;
+  background: linear-gradient(to right, #4285f4, var(--primary-color), #4285f4);
+  animation: loading 3s linear infinite;
+}
+
+.chat-list .message .loading-indicator .loading-bar:last-child {
+  width: 70%;
+}
+
+@keyframes loading {
+  0% {
+    background-position: -800px 0;
+  }
+
+  100% {
+    background-position: 800px 0;
+  }
+}
+
+.typing-area {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  padding: 1rem;
+  background: var(--primary-color);
+}
+
+.typing-area :where(.typing-form, .action-buttons) {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.typing-form .input-wrapper {
+  width: 100%;
+  height: 56px;
+  display: flex;
+  position: relative;
+}
+
+.typing-form .typing-input {
+  height: 100%;
+  width: 100%;
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 1rem;
+  color: var(--text-color);
+  padding: 1.1rem 4rem 1.1rem 1.5rem;
+  border-radius: 100px;
+  background: var(--secondary-color);
+}
+
+.typing-form .typing-input:focus {
+  background: var(--secondary-hover-color);
+}
+
+.typing-form .typing-input::placeholder {
+  color: var(--placeholder-color);
+}
+
+.typing-area .icon {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  font-size: 1.4rem;
+  color: var(--text-color);
+  align-items: center;
+  justify-content: center;
+  background: var(--secondary-color);
+  transition: 0.2s ease;
+}
+
+.typing-area .icon:hover {
+  background: var(--secondary-hover-color);
+}
+
+.typing-form #send-message-button {
+  position: absolute;
+  right: 0;
+  outline: none;
+  border: none;
+  transform: scale(0);
+  background: transparent;
+  transition: transform 0.2s ease;
+}
+
+.typing-form .typing-input:valid ~ #send-message-button {
+  transform: scale(1);
+}
+
+.typing-area .disclaimer-text {
+  text-align: center;
+  font-size: 0.85rem;
+  margin-top: 1rem;
+  color: var(--placeholder-color);
+}
+
+/* Responsive media query code for small screen */
+@media (max-width: 768px) {
+  .header :is(.title, .subtitle) {
+    font-size: 2rem;
+    line-height: 2.6rem;
+  }
+
+  .header .subtitle {
+    font-size: 1.7rem;
+  }
+
+  .typing-area :where(.typing-form, .action-buttons) {
+    gap: 0.4rem;
+  }
+
+  .typing-form .input-wrapper {
+    height: 50px;
+  }
+
+  .typing-form .typing-input {
+    padding: 1.1rem 3.5rem 1.1rem 1.2rem;
+  }
+
+  .typing-area .icon {
+    height: 50px;
+    width: 50px;
+  }
+
+  .typing-area .disclaimer-text {
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+  }
+}
+:root {
+  /* Add a gradient for background */
+  --gradient-bg: linear-gradient(to right, #121212, #242424);
+  --light-gradient-bg: linear-gradient(to right, #f5f7fa, #e3e3e3);
+  
+  /* Add shadows and glow effects */
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --glow-effect: 0 0 10px rgba(66, 133, 244, 0.7);
+}
+
+body {
+  background: var(--gradient-bg);
+  transition: background 0.5s ease;
+}
+
+.light_mode {
+  --gradient-bg: var(--light-gradient-bg);
+}
+
+.header .title {
+  font-size: 3.5rem;
+  line-height: 1.2;
+  animation: fadeIn 1s ease;
+}
+
+.suggestion-list .suggestion {
+  box-shadow: var(--box-shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.suggestion-list .suggestion:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.chat-list .message .icon {
+  transition: background 0.3s ease, transform 0.2s;
+}
+
+.chat-list .message .icon:hover {
+  transform: scale(1.2);
+  background: #444;
+}
+
+.typing-area .typing-input {
+  background: var(--secondary-color);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.typing-area .typing-input:focus {
+  box-shadow: 0 0 8px rgba(66, 133, 244, 0.8);
+}
+
+#theme-toggle-button:hover {
+  background: var(--secondary-hover-color);
+  box-shadow: var(--glow-effect);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .header .title {
+    font-size: 2.5rem;
+  }
+
+  .suggestion-list .suggestion {
+    width: 180px;
+  }
+}
+
+/* Notification Styles */
+    .notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 15px;
+      color: white;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      display: none;
+      z-index: 1000;
+      animation: fadeInOut 3s;
+    }
+
+    .notification.error {
+      background-color: #f44336;
+    }
+
+    .notification.success {
+      background-color: #4CAF50;
+    }
+
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0; }
+      10%, 90% { opacity: 1; }
+    }
+
+    
+/* Basic Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      background-color: #121212;
+      color: #fff;
+      overflow-x: hidden; /* Prevent horizontal scroll */
+    }
+
+    /* Menu Bar */
+    .menu-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(90deg, #4e54c8, #8f94fb);
+      color: white;
+      padding: 10px 20px;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .menu-bar .menu-btn {
+      font-size: 28px;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .menu-bar .menu-btn:hover {
+      color: #a6b1ff;
+    }
+
+    .menu-bar .title {
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      height: 100%;
+      width: 300px;
+      background: linear-gradient(180deg, #1e1e2f, #27293d);
+      color: white;
+      transition: 0.4s;
+      box-shadow: 2px 0 15px rgba(0, 0, 0, 0.8);
+      z-index: 1500; /* Ensure sidebar is above other elements */
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar .close-btn {
+      display: flex;
+      justify-content: flex-end;
+      padding: 15px 20px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #a6b1ff;
+      transition: color 0.3s;
+    }
+
+    .sidebar .close-btn:hover {
+      color: #ff6f61;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .sidebar ul li {
+      margin: 15px 0;
+    }
+
+    .sidebar ul li a {
+      color: white;
+      text-decoration: none;
+      display: block;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      background: rgba(255, 255, 255, 0.05);
+      transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+    }
+
+    .sidebar ul li a:hover {
+      background: #4e54c8;
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(78, 84, 200, 0.5);
+    }
+
+    /* Overlay for Sidebar */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      opacity: 0;
+      visibility: hidden;
+      z-index: 1400; /* Below the sidebar but above other content */
+      transition: opacity 0.4s, visibility 0.4s;
+    }
+
+    .overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+/* Notification Container */
+.notification {
+    position: fixed;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #1f1f1f; /* Dark background to match AI theme */
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 350px;
+    color: #f1f1f1; /* Light text */
+    font-family: 'Poppins', sans-serif;
+    padding: 20px;
+    text-align: center;
+    z-index: 9999;
+}
+
+.delete-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 300px;
+    text-align: center;
+}
+
+.notification-content p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.notification-buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.notification-buttons button {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-confirm {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-cancel {
+    background-color: #f44336;
+    color: white;
+}
+
+.btn-confirm:hover, .btn-cancel:hover {
+    opacity: 0.9;
+}
+
+/* User Chat (Outgoing) - Keep the box design */
+.chat-list .message.outgoing .message-content {
+  background: linear-gradient(135deg, #6e8efb, #4a6cf7);
+  color: white;
+  margin-left: auto;
+  padding: 1rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* AI Chat (Incoming) - Minimalistic design without a box */
+.chat-list .message.incoming .message-content {
+  background: none;
+  color: var(--text-color);
+  margin-right: auto;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Gradient text for AI messages */
+.chat-list .message.incoming .text {
+  background: linear-gradient(135deg, #4285f4, #34a853);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+/* AI Avatar */
+.chat-list .message.incoming .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  margin-right: 0.8rem;
+}
+
+/* Timestamp for AI messages */
+.chat-list .message.incoming .timestamp {
+  font-size: 0.75rem;
+  color: var(--subheading-color);
+  margin-top: 0.5rem;
+  text-align: left;
+}
+
+/* Hover effect for AI messages */
+.chat-list .message.incoming:hover .text {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+/* Actions for AI messages (e.g., copy) */
+.chat-list .message.incoming .actions {
+  display: none;
+  gap: 0.5rem;
+  position: absolute;
+  top: -1.5rem;
+  right: 0;
+}
+
+.chat-list .message.incoming:hover .actions {
+  display: flex;
+}
+
+.chat-list .message.incoming .actions .icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.chat-list .message.incoming .actions .icon:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Slide-in animation for chat messages */
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.message.incoming, .message.outgoing {
+  animation: slideIn 0.3s ease;
+}
+
+</style>
+</head>
+<body>
+<!-- Menu Bar -->
+<div class="menu-bar">
+  <div class="menu-btn" onclick="toggleSidebar()">☰</div>
+  <div class="title">AI Assistant</div>
+</div>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="close-btn" onclick="toggleSidebar()">×</div>
+<div style="text-align: center; font-size: 41px; font-weight: bold; font-style: Garamond, serif; 
+            background: linear-gradient(to right, #4e54c8, #8f94fb); 
+            color: white; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+  NEX GEN AI
+</div>
+  <ul>
+    <li><a href="index.html" class="back-button">Home</a></li>
+    <li><a href="https://namnijamni96.github.io/About-AI-/">About AI</a></li>
+    <li><a href="https://namnijamni96.github.io/Features-of-AI/">AI Features</a></li>
+    <li><a href="mailto:rajeshkumar8810362760@gmail.com">Contact creator</a></li>
+    <li><a href="https://namnijamni96.github.io/AI-Licence/">licence</a></li>
+  </ul>
+</div>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<script>
+  // Toggle Sidebar
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+
+    // Toggle active class for sidebar and overlay
+    sidebar.classList.toggle('active');
+    overlay.classList.toggle('active');
+  }
+</script>
+
+  <header class="header">
+    <!-- Header Greetings -->
+    <h1 class="title">NEX GEN AI</h1>
+    <p id="ai-text" class="subtitle"></p>
+
+    <!-- Suggestion list -->
+    <ul class="suggestion-list">
+      <li class="suggestion">
+        <h4 class="text">Tell me about React js and React native</h4>
+        <span class="icon material-symbols-rounded">draw</span>
+      </li>
+      <li class="suggestion">
+        <h4 class="text">Brainstorm team bonding activities for our work retreat</h4>
+        <span class="icon material-symbols-rounded">lightbulb</span>
+      </li>
+      <li class="suggestion">
+        <h4 class="text">Can you help me find the latest news on web development?</h4>
+        <span class="icon material-symbols-rounded">explore</span>
+      </li>
+      <li class="suggestion">
+        <h4 class="text">Write JavaScript code to sum all elements in an array.</h4>
+        <span class="icon material-symbols-rounded">code</span>
+      </li>
+    </ul>
+  </header>
+
+
+  <!-- Chat List / Container -->
+  <div class="chat-list"></div>
+
+
+  <!-- Typing Area -->
+  <div class="typing-area">
+    <form action="#" class="typing-form">
+      <div class="input-wrapper">
+        <input type="text" placeholder="Enter a prompt here" class="typing-input" required="">
+        <button id="send-message-button" class="icon material-symbols-rounded">send</button>
+      </div>
+      <div class="action-buttons">
+        <span id="theme-toggle-button" class="icon material-symbols-rounded">light_mode</span>
+        <span id="delete-chat-button" class="icon material-symbols-rounded">delete</span>
+      </div>
+    </form>
+    <p class="disclaimer-text">
+     
+    </p>
+  </div>
+
+<div id="connectionNotification" class="notification"></div>
+<div id="serverNotification" class="notification"></div>
+
+<script>
+  // Function to show notifications
+  function showNotification(message, type = 'error') {
+    const notification = type === 'connection' ? 
+                         document.getElementById('connectionNotification') : 
+                         document.getElementById('serverNotification');
+    notification.textContent = message;
+    notification.className = `notification ${type === 'success' ? 'success' : 'error'}`;
+    notification.style.display = 'block';
+
+    setTimeout(() => {
+      notification.style.display = 'none';
+    }, 3000);
+  }
+
+  // Check Internet Connection
+  function checkConnection() {
+    if (!navigator.onLine) {
+      showNotification('Poor internet connection! Please check your network.', 'connection');
+    }
+  }
+
+  // Simulate API Fetch
+  function fetchDataFromAPI() {
+    fetch('https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Server is busy!');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Data fetched:', data);
+      })
+      .catch((error) => {
+        if (error.message !== 'Failed to fetch') {
+          showNotification(error.message, 'server');
+        }
+      });
+  }
+
+  // Add event listeners
+  window.addEventListener('offline', () => showNotification('You are offline. Check your connection.', 'connection'));
+  window.addEventListener('online', () => showNotification('Back online. your connection is back', 'success'));
+
+  // Simulate fetching data on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    checkConnection();
+    fetchDataFromAPI();
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    new Typed("#ai-text", {
+      strings: [
+        "Hello, I am NEX GEN AI model created by Naman sir ❤️.",
+        "Hello, there. How can I help you today?",
+        "I am here to help you, If you have any question to me feel free to ask.",
+        "Ask me anything about technology!",
+        "want to listen some jokes.",
+        "Looking for advice? I'm here to help."
+      ],
+      typeSpeed: 50,
+      backSpeed: 25,
+      loop: true,
+      startDelay: 500,
+    });
+  });
+</script>
+
+  <script>
+const typingForm = document.querySelector(".typing-form");
+const chatContainer = document.querySelector(".chat-list");
+const suggestions = document.querySelectorAll(".suggestion");
+const toggleThemeButton = document.querySelector("#theme-toggle-button");
+const deleteChatButton = document.querySelector("#delete-chat-button");
+
+// State variables
+let userMessage = null;
+let isResponseGenerating = false;
+
+// API configuration
+const API_KEY = "AIzaSyCBtkU42NKyZkrjrBrT3xtrjmucBoZgsnQ"; // Replace with your actual API key
+const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`;
+
+// Load theme and chat data from local storage
+const loadDataFromLocalStorage = () => {
+  const savedChats = localStorage.getItem("saved-chats");
+  const isLightMode = localStorage.getItem("themeColor") === "light_mode";
+
+  document.body.classList.toggle("light_mode", isLightMode);
+  toggleThemeButton.innerText = isLightMode ? "dark_mode" : "light_mode";
+
+  chatContainer.innerHTML = savedChats || '';
+  document.body.classList.toggle("hide-header", !!savedChats);
+
+  chatContainer.scrollTo(0, chatContainer.scrollHeight);
+};
+
+// Create a new message element
+const createMessageElement = (content, ...classes) => {
+  const div = document.createElement("div");
+  div.classList.add("message", ...classes);
+  div.innerHTML = content;
+  return div;
+};
+
+// Show typing effect
+const showTypingEffect = (text, textElement, incomingMessageDiv) => {
+  const words = text.split(' ');
+  let currentWordIndex = 0;
+
+  const typingInterval = setInterval(() => {
+    textElement.innerText += (currentWordIndex === 0 ? '' : ' ') + words[currentWordIndex++];
+    incomingMessageDiv.querySelector(".icon").classList.add("hide");
+
+    if (currentWordIndex === words.length) {
+      clearInterval(typingInterval);
+      isResponseGenerating = false;
+      incomingMessageDiv.querySelector(".icon").classList.remove("hide");
+      localStorage.setItem("saved-chats", chatContainer.innerHTML);
+    }
+    chatContainer.scrollTo(0, chatContainer.scrollHeight);
+  }, 75);
+};
+
+// Fetch API response
+const generateAPIResponse = async (incomingMessageDiv) => {
+  const textElement = incomingMessageDiv.querySelector(".text");
+
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: userMessage }] }] }),
+    });
+
+    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    const data = await response.json();
+
+    const apiResponse = data?.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, '$1');
+    showTypingEffect(apiResponse, textElement, incomingMessageDiv);
+  } catch (error) {
+    isResponseGenerating = false;
+    textElement.innerText = error.message;
+    incomingMessageDiv.classList.add("error");
+  } finally {
+    incomingMessageDiv.classList.remove("loading");
+  }
+};
+
+// Show loading animation
+const showLoadingAnimation = () => {
+  const html = `
+    <div class="message-content">
+      <img class="avatar" src="https://i.ibb.co/7N8BnVKG/file-SQcx-Gpb5q-Rv-L1g-Lebk-Xtxu.webp" alt="NEX GEN AI avatar">
+      <p class="text"></p>
+      <div class="loading-indicator">
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+      </div>
+    </div>
+    <span onClick="copyMessage(this)" class="icon material-symbols-rounded">content_copy</span>`;
+
+  const incomingMessageDiv = createMessageElement(html, "incoming", "loading");
+  chatContainer.appendChild(incomingMessageDiv);
+
+  chatContainer.scrollTo(0, chatContainer.scrollHeight);
+  generateAPIResponse(incomingMessageDiv);
+};
+
+// Copy message text
+const copyMessage = (copyButton) => {
+  const messageText = copyButton.parentElement.querySelector(".text").innerText;
+
+  navigator.clipboard.writeText(messageText);
+  copyButton.innerText = "done";
+  setTimeout(() => (copyButton.innerText = "content_copy"), 1000);
+};
+
+// Handle outgoing messages
+const handleOutgoingChat = () => {
+  userMessage = typingForm.querySelector(".typing-input").value.trim() || userMessage;
+  if (!userMessage || isResponseGenerating) return;
+
+  isResponseGenerating = true;
+
+  const html = `
+    <div class="message-content">
+      <img class="avatar" src="https://i.ibb.co/pvBWTdJK/flat-icon-design-1258715-222472-removebg-preview.png" alt="User avatar">
+      <p class="text">${userMessage}</p>
+    </div>`;
+
+  const outgoingMessageDiv = createMessageElement(html, "outgoing");
+  chatContainer.appendChild(outgoingMessageDiv);
+
+  typingForm.reset();
+  document.body.classList.add("hide-header");
+  chatContainer.scrollTo(0, chatContainer.scrollHeight);
+  setTimeout(showLoadingAnimation, 500);
+};
+
+// Theme toggling
+toggleThemeButton.addEventListener("click", () => {
+  const isLightMode = document.body.classList.toggle("light_mode");
+  localStorage.setItem("themeColor", isLightMode ? "light_mode" : "dark_mode");
+  toggleThemeButton.innerText = isLightMode ? "dark_mode" : "light_mode";
+});
+
+// Delete chat history and clear local storage
+deleteChatButton.addEventListener("click", () => {
+  chatContainer.innerHTML = ''; // Clear the chat container
+  localStorage.removeItem("saved-chats"); // Remove saved chats from local storage
+  document.body.classList.remove("hide-header"); // Ensure header is visible after deletion
+  alert("Chat history cleared!"); // Optional notification
+});
+
+// Download chat history
+const downloadChatHistory = () => {
+  const blob = new Blob([chatContainer.innerText], { type: 'text/plain' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'chat-history.txt';
+  link.click();
+};
+
+// Event listeners
+typingForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  handleOutgoingChat();
+});
+
+suggestions.forEach((suggestion) => {
+  suggestion.addEventListener("click", () => {
+    userMessage = suggestion.querySelector(".text").innerText;
+    handleOutgoingChat();
+  });
+});
+
+loadDataFromLocalStorage();
+</script>
+
+</body>
+</html
