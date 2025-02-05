@@ -776,6 +776,118 @@ body {
   animation: slideIn 0.3s ease;
 }
 
+/* 🔊 Read Aloud Notification - Modern Style */
+.read-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(30, 30, 30, 0.95); /* Dark glass effect */
+    color: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 350px;
+    text-align: center;
+    animation: slideUp 0.3s ease-in-out;
+    font-size: 16px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease-in-out;
+}
+
+/* 🔘 Language Selector Styling */
+#languageSelector {
+    margin-top: 10px;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+    width: 100%;
+    outline: none;
+}
+
+/* 🆗 Buttons */
+.notif-buttons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.notif-buttons button {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    width: 45%;
+    transition: all 0.2s ease-in-out;
+}
+
+.yes-btn {
+    background: #4CAF50;
+    color: white;
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+}
+
+.yes-btn:hover {
+    background: #45a049;
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.5);
+}
+
+.no-btn {
+    background: #f44336;
+    color: white;
+    box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
+}
+
+.no-btn:hover {
+    background: #d32f2f;
+    box-shadow: 0 4px 12px rgba(244, 67, 54, 0.5);
+}
+
+/* 🔄 Fade & Slide-up Animation */
+@keyframes slideUp {
+    from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* 🔴 Stop Speaking Button */
+.stop-speaking-btn {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff4444;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3);
+    transition: all 0.2s ease-in-out;
+    animation: fadeIn 0.3s ease-in-out;
+    display: none; /* Hidden by default */
+}
+
+/* 🔥 Hover Effect */
+.stop-speaking-btn:hover {
+    background: #d32f2f;
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.5);
+}
+
+/* 🎬 Fade-in Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
 </style>
 </head>
 <body>
@@ -867,6 +979,156 @@ body {
 
 <div id="connectionNotification" class="notification"></div>
 <div id="serverNotification" class="notification"></div>
+
+<script>
+// Available Languages with More Options
+const languages = {
+  "en-US": "English accent style",
+  "hi-IN": "Hindi accent style",
+  "ar-SA": "Arabic accent style",
+  "fr-FR": "French accent style",
+  "es-ES": "Spanish accent style",
+  "de-DE": "German accent style",
+  "zh-CN": "Chinese accent style",
+  "ja-JP": "Japanese accent style",
+  "ko-KR": "Korean accent style",
+  "ru-RU": "Russian accent style",
+  "it-IT": "Italian accent style",
+};
+
+// Function to Read Text Aloud in Selected Language
+function readTextAloud(text) {
+    const selectedLang = document.getElementById("languageSelector").value;
+    localStorage.setItem("selectedLang", selectedLang); // Save language preference
+
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang = selectedLang;
+
+    // Wait for voices to load before speaking
+    speechSynthesis.onvoiceschanged = () => {
+        const voices = speechSynthesis.getVoices();
+        speech.voice = voices.find(voice => voice.lang === selectedLang) || voices[0];
+        window.speechSynthesis.speak(speech);
+    };
+
+    // Start speaking immediately if voices are already loaded
+    window.speechSynthesis.speak(speech);
+
+    // Show "Stop Speaking" Button
+    showStopButton();
+
+    // Hide the stop button when speech ends
+    speech.onend = () => {
+        hideStopButton();
+    };
+}
+
+// Function to Stop Speaking Immediately
+function stopSpeaking() {
+    window.speechSynthesis.cancel();
+    hideStopButton();
+}
+
+// Function to Show "Stop Speaking" Button
+function showStopButton() {
+    let stopButton = document.getElementById("stopSpeakingBtn");
+    if (!stopButton) {
+        stopButton = document.createElement("button");
+        stopButton.id = "stopSpeakingBtn";
+        stopButton.innerText = "⏹🔈 Stop Speaking";
+        stopButton.className = "stop-speaking-btn";
+        stopButton.onclick = stopSpeaking;
+        document.body.appendChild(stopButton);
+    }
+    stopButton.style.display = "block";
+}
+
+// Function to Hide "Stop Speaking" Button
+function hideStopButton() {
+    const stopButton = document.getElementById("stopSpeakingBtn");
+    if (stopButton) {
+        stopButton.style.display = "none";
+    }
+}
+
+// Function to Show Notification for Read Aloud with Language Selector
+function showReadNotification(text) {
+  document.querySelectorAll(".read-notification").forEach(el => el.remove());
+
+  const savedLang = localStorage.getItem("selectedLang") || "en-US"; // Load saved language
+
+  // Create Notification with Language Selector
+  const notification = document.createElement("div");
+  notification.className = "read-notification";
+  notification.innerHTML = `
+    <p>🔊 Do you want to read this aloud?</p>
+    <select id="languageSelector">
+      ${Object.keys(languages).map(lang => `<option value="${lang}" ${lang === savedLang ? "selected" : ""}>${languages[lang]}</option>`).join('')}
+    </select>
+    <div class="notif-buttons">
+      <button class="yes-btn">Yes</button>
+      <button class="no-btn">No</button>
+    </div>
+  `;
+
+  document.body.appendChild(notification);
+
+  // Read Aloud on "Yes"
+  notification.querySelector(".yes-btn").addEventListener("click", () => {
+    readTextAloud(text);
+    notification.remove();
+  });
+
+  // Close on "No"
+  notification.querySelector(".no-btn").addEventListener("click", () => {
+    notification.remove();
+  });
+}
+
+// Attach Event to AI Messages
+document.querySelector(".chat-list").addEventListener("click", (event) => {
+  if (event.target.classList.contains("text")) {
+    showReadNotification(event.target.innerText);
+  }
+});
+</script>
+
+  
+<script>
+//
+document.addEventListener("DOMContentLoaded", function () {
+  // Function to Download Chat History
+  function downloadChatHistory() {
+    const chatContainer = document.querySelector(".chat-list");
+    if (!chatContainer.innerText.trim()) {
+      alert("Chat history is empty!");
+      return;
+    }
+
+    const blob = new Blob([chatContainer.innerText], { type: "text/plain" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "chat-history.txt";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  // Create and Append the Download Button
+  const downloadButton = document.createElement("span");
+  downloadButton.className = "icon material-symbols-rounded";
+  downloadButton.innerText = "download";
+  downloadButton.style.cursor = "pointer";
+  downloadButton.title = "Download Chat History";
+  downloadButton.onclick = downloadChatHistory;
+
+  // Wait for action buttons to load, then add download button
+  const actionButtons = document.querySelector(".action-buttons");
+  if (actionButtons) {
+    actionButtons.appendChild(downloadButton);
+  }
+});
+</script>
 
 <script>
   // Function to show notifications
@@ -1114,4 +1376,4 @@ loadDataFromLocalStorage();
 </script>
 
 </body>
-</html
+</html>
