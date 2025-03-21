@@ -11,8 +11,10 @@
 - *🌐 Web Development News* – Stay up-to-date with the latest tech trends.  
 - *💻 Code Assistance* – Solve programming challenges in seconds.  
 - *🌙 Dark & Light Mode* – Customize your chat experience with themes.  
-- *💬 Chat History Management* – Save or delete chat logs anytime.  
-- *⚡ Ultra Lightweight – *Only 27KB*, ensuring *fast performance* with minimal storage!  
+- *💬 Chat History Management* – Save or delete chat logs anytime.
+- *💾 Download history* - download chat history and see it later.
+- *📖 Read aloud* - (TTS) text-to-speech feature helps to read aloud the chat click on chat a Read aloud feature will come.
+- *⚡ Ultra Lightweight – *Only 36KB*, ensuring *fast performance* with minimal storage!  
 - 🎨 Modern AI Design & Animations –  
   - *Smooth UI transitions* for an elegant experience.  
   - *Chat bubbles with gradient effects* for a sleek, futuristic look.  
@@ -50,7 +52,7 @@ Try *NEX GEN AI* here:
 ---
 
 # ⚠️ *DO NOT MISS USING THIS BOT!*  
-This isn’t just another chatbot—it’s an *AI revolution* in just *27KB*!  
+This isn’t just another chatbot—it’s an *AI revolution* in just *36KB*!  
 > "The future of AI assistance is here—fast, smart, and efficient!"  
 
 ---
